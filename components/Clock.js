@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import { Text, Button, Layout } from '@ui-kitten/components';
 
-const HOUR = 3600000; // One hour in ms
+import { scheduleNotification } from '../utils';
+
+// const HOUR = 3600000; // One hour in ms
+const HOUR = 10000; // One hour in ms
 const SECOND = 1000;
 
 const Clock = () => {
@@ -18,12 +21,16 @@ const Clock = () => {
 
   useEffect(() => {
     if (timer) {
+      scheduleNotification(HOUR / SECOND);
       const id = setInterval(() => {
-        if (difference > 0) {
-          setDifference(prevDifference => prevDifference - SECOND);
-        } else {
-          handleReset();
-        }
+          setDifference(prevDifference => {
+            if (prevDifference > 0) {
+              return prevDifference - SECOND;
+            } else {
+              handleReset();
+              return HOUR;
+            }
+          });
       }, SECOND); // Update every second when time has been started
       setIntervalID(id);
     }
