@@ -2,31 +2,37 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import { Text, Button, Layout } from '@ui-kitten/components';
 
+import { scheduleNotification } from '../utils';
+
 const HOUR = 3600000; // One hour in ms
 const SECOND = 1000;
 
 const Clock = () => {
+  const [intervalID, setIntervalID] = useState(null);
   const [timer, setTimer] = useState(false);
   const [difference, setDifference] = useState(HOUR); // Countdown
 
-  const handleReset = () => { // Reset
+  const handleReset = () => {
     setDifference(HOUR);
     setTimer(prevTimer => !prevTimer);
+    clearInterval(intervalID);
   };
 
   useEffect(() => {
     if (timer) {
-      setInterval(() => {
-        if (difference > 0) {
-          setDifference(prevDifference => prevDifference - SECOND);
-        } else {
-          handleReset();
-          clearInterval();
-          // TODO: Handle notification timeout
-        }
-      }, SECOND); // Update every second when time has been started
+      scheduleNotification(HOUR / SECOND);
+      const id = setInterval(() => {
+        setDifference(prevDifference => prevDifference - SECOND);
+      }, SECOND);
+      setIntervalID(id);
     }
   }, [timer]);
+
+  useEffect(() => {
+    if (!difference) {
+      handleReset();
+    }
+  }, [difference]);
 
   const countdown = useMemo(() => new Date(difference).toISOString().slice(11, 19), [difference]);
 

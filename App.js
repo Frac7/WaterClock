@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Layout } from '@ui-kitten/components';
+import { ApplicationProvider } from '@ui-kitten/components';
 
 import { Clock } from './components';
+import { askPermissions } from './utils';
 
 export default function App() {
   return (
