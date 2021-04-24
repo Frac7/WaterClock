@@ -13,7 +13,7 @@ const Clock = () => {
   const [timer, setTimer] = useState(false);
   const [difference, setDifference] = useState(HOUR); // Countdown
 
-  const handleReset = () => { // Reset
+  const handleReset = () => {
     setDifference(HOUR);
     setTimer(prevTimer => !prevTimer);
     clearInterval(intervalID);
@@ -23,18 +23,17 @@ const Clock = () => {
     if (timer) {
       scheduleNotification(HOUR / SECOND);
       const id = setInterval(() => {
-          setDifference(prevDifference => {
-            if (prevDifference > 0) {
-              return prevDifference - SECOND;
-            } else {
-              handleReset();
-              return HOUR;
-            }
-          });
-      }, SECOND); // Update every second when time has been started
+        setDifference(prevDifference => prevDifference - SECOND);
+      }, SECOND);
       setIntervalID(id);
     }
   }, [timer]);
+
+  useEffect(() => {
+    if (!difference) {
+      handleReset();
+    }
+  }, [difference]);
 
   const countdown = useMemo(() => new Date(difference).toISOString().slice(11, 19), [difference]);
 
