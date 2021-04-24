@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "WaterClock",
-    "slug": "WaterClock",
+    "name": "Water Clock",
+    "slug": "Water Clock",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
