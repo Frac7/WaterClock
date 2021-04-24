@@ -4,8 +4,7 @@ import { Text, Button, Layout } from '@ui-kitten/components';
 
 import { scheduleNotification } from '../utils';
 
-// const HOUR = 3600000; // One hour in ms
-const HOUR = 10000; // One hour in ms
+const HOUR = 3600000; // One hour in ms
 const SECOND = 1000;
 
 const Clock = () => {
