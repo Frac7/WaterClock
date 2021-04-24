@@ -6,25 +6,26 @@ const HOUR = 3600000; // One hour in ms
 const SECOND = 1000;
 
 const Clock = () => {
+  const [intervalID, setIntervalID] = useState(null);
   const [timer, setTimer] = useState(false);
   const [difference, setDifference] = useState(HOUR); // Countdown
 
   const handleReset = () => { // Reset
     setDifference(HOUR);
     setTimer(prevTimer => !prevTimer);
+    clearInterval(intervalID);
   };
 
   useEffect(() => {
     if (timer) {
-      setInterval(() => {
+      const id = setInterval(() => {
         if (difference > 0) {
           setDifference(prevDifference => prevDifference - SECOND);
         } else {
           handleReset();
-          clearInterval();
-          // TODO: Handle notification timeout
         }
       }, SECOND); // Update every second when time has been started
+      setIntervalID(id);
     }
   }, [timer]);
 
