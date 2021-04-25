@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Water Clock",
-    "slug": "Water Clock",
+    "slug": "WaterClock",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "very simple water clock",
+    "githubUrl": "https://github.com/Frac7/WaterClock"
   }
 }
