@@ -2,29 +2,41 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import { Text, Button, Layout } from '@ui-kitten/components';
 
-import { scheduleNotification } from '../utils';
-
-const HOUR = 3600000; // One hour in ms
-const SECOND = 1000;
+import { handleNotification, cancelScheduledNotification, HOUR, SECOND, normalizeDifference } from '../utils';
 
 const Clock = () => {
   const [intervalID, setIntervalID] = useState(null);
+  const [notificationId, setNotificationId] = useState(null);
+
   const [timer, setTimer] = useState(false);
-  const [difference, setDifference] = useState(HOUR); // Countdown
+  const [difference, setDifference] = useState(HOUR);
 
   const handleReset = () => {
     setDifference(HOUR);
+    
+    if (timer) {
+      cancelScheduledNotification(notificationId);
+      clearInterval(intervalID);
+    }
+
     setTimer(prevTimer => !prevTimer);
-    clearInterval(intervalID);
   };
 
   useEffect(() => {
     if (timer) {
-      scheduleNotification(HOUR / SECOND);
-      const id = setInterval(() => {
-        setDifference(prevDifference => prevDifference - SECOND);
+      handleNotification(HOUR / SECOND, setNotificationId);
+
+      const newEndTime = new Date().getTime() + HOUR;
+      const newIntervalID = setInterval(() => {
+        const current = new Date().getTime();
+        if (newEndTime > current) {
+          const newDifference = normalizeDifference(newEndTime - current);
+          setDifference(newDifference);
+        } else {
+          setDifference(0);
+        }
       }, SECOND);
-      setIntervalID(id);
+      setIntervalID(newIntervalID);
     }
   }, [timer]);
 
