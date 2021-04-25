@@ -20,4 +20,9 @@ export const scheduleNotification = async seconds =>
     }
   });
 
+export const handleNotification = async (endTime, setNotificationId) => {
+  const newNotificationID = await scheduleNotification(endTime);
+  setNotificationId(newNotificationID);
+}
+
 export const cancelScheduledNotification = async id => await Notifications.cancelScheduledNotificationAsync(id);
