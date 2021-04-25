@@ -9,7 +9,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const scheduleNotification = async seconds =>
+const scheduleNotification = async seconds =>
   await Notifications.scheduleNotificationAsync({
     content: {
       title: 'Timeout!',
@@ -26,3 +26,8 @@ export const handleNotification = async (endTime, setNotificationId) => {
 }
 
 export const cancelScheduledNotification = async id => await Notifications.cancelScheduledNotificationAsync(id);
+
+export const normalizeDifference = difference => Math.round(difference / SECOND) * SECOND;
+
+export const SECOND = 1000;
+export const HOUR = 3600000;
