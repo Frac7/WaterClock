@@ -9,7 +9,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const scheduleNotification = async seconds => {
+export const scheduleNotification = async seconds =>
   await Notifications.scheduleNotificationAsync({
     content: {
       title: 'Timeout!',
@@ -19,4 +19,5 @@ export const scheduleNotification = async seconds => {
       seconds,
     }
   });
-}
+
+export const cancelScheduledNotification = async id => await Notifications.cancelScheduledNotificationAsync(id);
